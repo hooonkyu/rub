@@ -1,16 +1,32 @@
-// 카메라 스트림이 필요하다면 아래 코드를 활성화하세요.
-// (촬영이 필요없다면 이 부분은 주석처리해도 무방합니다.)
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function(stream) {
+let currentCamera = "environment"; // 기본값: 후면 카메라
+let stream = null; // 현재 스트림 저장
+
+function startCamera(cameraFacing) {
+    // 기존 스트림이 있다면 중지
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+
+    // 새로운 스트림 요청
+    navigator.mediaDevices.getUserMedia({
+        video: { facingMode: cameraFacing }
+    })
+    .then(function(newStream) {
+        stream = newStream;
         var video = document.getElementById('camera');
-        // 최신 브라우저는 srcObject를 사용합니다.
-        video.srcObject = stream;
+        video.srcObject = newStream;
         video.play();
-      })
-      .catch(function(error) {
+    })
+    .catch(function(error) {
         console.error("카메라 접근 오류:", error);
-      });
-  }
-  
-  
+    });
+}
+
+// 초기 실행 (후면 카메라 사용)
+startCamera("environment");
+
+// 터치하면 카메라 변경
+document.getElementById('camera').addEventListener("click", function() {
+    currentCamera = (currentCamera === "environment") ? "user" : "environment";
+    startCamera(currentCamera);
+});

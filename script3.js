@@ -1,32 +1,39 @@
-let currentCamera = "environment"; // 기본값: 후면 카메라
-let stream = null; // 현재 스트림 저장
+document.addEventListener("DOMContentLoaded", function () {
+    const thumbnails = document.querySelectorAll(".thumbnail2");
 
-function startCamera(cameraFacing) {
-    // 기존 스트림이 있다면 중지
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+    thumbnails.forEach((thumbnail) => {
+        thumbnail.addEventListener("click", function () {
+            openImage(this);
+        });
+    });
+});
+
+function openImage(img) {
+    // 기존 모달이 있으면 삭제 후 새로 생성
+    let existingModal = document.getElementById("imageModal");
+    if (existingModal) {
+        existingModal.remove();
     }
 
-    // 새로운 스트림 요청
-    navigator.mediaDevices.getUserMedia({
-        video: { facingMode: cameraFacing }
-    })
-    .then(function(newStream) {
-        stream = newStream;
-        var video = document.getElementById('camera');
-        video.srcObject = newStream;
-        video.play();
-    })
-    .catch(function(error) {
-        console.error("카메라 접근 오류:", error);
-    });
+    // 모달 컨테이너 생성
+    let modal = document.createElement("div");
+    modal.id = "imageModal";
+    modal.className = "image-modal";
+    modal.onclick = closeImage; // 배경 클릭 시 닫기
+
+    // 확대할 이미지 생성
+    let modalImg = document.createElement("img");
+    modalImg.src = img.src;
+    modalImg.className = "modal-image";
+
+    // 모달에 이미지 추가 후 body에 추가
+    modal.appendChild(modalImg);
+    document.body.appendChild(modal);
 }
 
-// 초기 실행 (후면 카메라 사용)
-startCamera("environment");
-
-// 터치하면 카메라 변경
-document.getElementById('camera').addEventListener("click", function() {
-    currentCamera = (currentCamera === "environment") ? "user" : "environment";
-    startCamera(currentCamera);
-});
+function closeImage() {
+    let modal = document.getElementById("imageModal");
+    if (modal) {
+        modal.remove();
+    }
+}
