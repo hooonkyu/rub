@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  background-size: cover;
+  background-image: url(back.png);
+
+}
+
+.top-nav {
+  position: fixed;
+  top: 0;      /* 화면 맨 위에 고정 */
+  width: 100%;
+  height: 66px;
+  display: flex;
+  align-items: center;    /* 수직 정렬 */
+  justify-content: space-between; /* 양끝 정렬 */
+  z-index: 1000;
+}
+
+.first {
+  display: flex;
+  align-items: center; 
+  padding-left: 10px;
+}
+
+
+.first img {
+  width: 57px;  /* 로고 크기 조절 */
+}
+
+.second {
+  display: flex;
+  align-items: center;  
+  padding-right: 5px;
+  padding-top: 1px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  margin: 0 10px;
+  font-weight: 550;
+}
+
+#message{
+  text-align: center;
+  margin-top: 520px;
+  color: rgb(234, 234, 234);
+  font-size: 14px;
+  opacity: 1;
+  transition: opacity 0.1s;
+  font-family:Roboto Mono;;
+  font-stretch:extra-condensed;
+}
+
+#message.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#logocontainer {
+  position: fixed;
+  left: 52%;
+  top: 270px;
+  transform: translateX(-50%);
+  width: 400px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  z-index: 900;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* SVG 스타일 */
+#logo {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* SVG 내부 path 스타일 */
+#logo .st0 {
+  fill: #000000;
+  stroke: #000000;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-width 0.2s ease-in-out;
+}
